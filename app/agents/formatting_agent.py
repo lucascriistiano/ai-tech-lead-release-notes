@@ -1,5 +1,6 @@
 from app.agents.state import CollectedData, FormattedReleaseNotes, WorkflowState
 from app.agents.tools import build_release_notes_markdown
+from app.core.llm import chatgpt_text
 
 
 class FormattingAgent:
@@ -31,8 +32,22 @@ class FormattingAgent:
             }
         )
 
-        return {
-            "formatted_release_notes": FormattedReleaseNotes(
-                markdown=markdown
-            )
-        }
+        llm_markdown = chatgpt_text(
+            system_prompt=(
+                "You are a technical writer specialized in software release notes. "
+                "Return Markdown only."
+            ),
+            user_prompt=(
+                f"Create release notes for version {state['version']} targeting audience {state['audience']}.\n"
+                f"Features: {collected_data.features}\n"
+                f"Fixes: {collected_data.fixes}\n"
+                f"Risk level: {risks.level if risks else 'Unknown'}\n"
+                f"Technical risk: {risks.technical_risk if risks else 'N/A'}\n"
+                f"Recommendations: {risks.recommendations if risks else []}\n"
+                f"Summary: {synthesis.executive_summary if synthesis else ''}\n"
+                "Use sections: '## Release <version>', '### New Features', '### Fixes', "
+                "'### Risks', '### Recommendations', '### Summary'."
+            ),
+        )
+
+        return {"formatted_release_notes": FormattedReleaseNotes(markdown=llm_markdown or markdown)}

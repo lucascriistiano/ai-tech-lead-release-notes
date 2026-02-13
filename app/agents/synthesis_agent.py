@@ -1,4 +1,5 @@
 from app.agents.state import SynthesisResult, WorkflowState
+from app.core.llm import chatgpt_text
 
 
 class SynthesisAgent:
@@ -27,8 +28,16 @@ class SynthesisAgent:
             ),
         ]
 
-        return {
-            "synthesis": SynthesisResult(
-                executive_summary=" ".join(part for part in parts if part).strip()
-            )
-        }
+        fallback_summary = " ".join(part for part in parts if part).strip()
+        llm_summary = chatgpt_text(
+            system_prompt=(
+                "You are a software release analyst. "
+                "Create an executive summary that balances impact, risk, and metrics."
+            ),
+            user_prompt=(
+                "Use the following analysis details and return a concise paragraph in plain text:\n"
+                f"{fallback_summary}"
+            ),
+        )
+
+        return {"synthesis": SynthesisResult(executive_summary=llm_summary or fallback_summary)}

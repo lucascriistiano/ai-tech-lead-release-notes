@@ -77,6 +77,7 @@ flowchart TD
 - `uvicorn[standard]`
 - `langgraph`
 - `langchain`
+- `langchain-openai`
 - `pydantic`
 - `pydantic-settings`
 - `python-dotenv`
@@ -114,6 +115,8 @@ Preencha com:
 ```env
 APP_ENV=development
 OPENAI_API_KEY=your_key
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_TEMPERATURE=0.2
 GITHUB_TOKEN=your_token
 JIRA_BASE_URL=https://your-domain.atlassian.net
 JIRA_EMAIL=your_email
@@ -164,3 +167,4 @@ make test
 
 - O workflow em `app/graphs/release_notes_graph.py` já está conectado com os nós principais de agentes.
 - As integrações reais com GitHub/Jira podem ser implementadas no agente de coleta (`DataCollectionAgent`) e em serviços dedicados.
+- O app usa chamadas ChatGPT (OpenAI) nos agentes de reflexão, síntese e formatação quando `OPENAI_API_KEY` está configurada.
