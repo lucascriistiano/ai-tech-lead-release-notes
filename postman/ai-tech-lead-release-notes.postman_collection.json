@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "AI Tech Lead Release Notes API",
+    "description": "Postman collection for the Multi-Agent Release Notes Generator service endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Service health endpoint."
+      },
+      "response": []
+    },
+    {
+      "name": "Generate Release Notes",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"version\": \"v1.4.0\",\n  \"from_date\": \"2026-01-01\",\n  \"to_date\": \"2026-02-01\",\n  \"audience\": \"clientes\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/v1/release-notes",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "v1",
+            "release-notes"
+          ]
+        },
+        "description": "Generates release notes through the LangGraph multi-agent pipeline."
+      },
+      "response": []
+    }
+  ]
+}

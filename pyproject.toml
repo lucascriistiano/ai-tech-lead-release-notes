@@ -1,0 +1,29 @@
+[project]
+name = "ai-tech-lead-release-notes"
+version = "0.1.0"
+description = "Multi-agent release notes generator with FastAPI and LangGraph"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi==0.116.1",
+  "uvicorn[standard]==0.35.0",
+  "pydantic==2.11.7",
+  "pydantic-settings==2.10.1",
+  "langgraph==0.6.6",
+  "langchain==0.3.27",
+  "python-dotenv==1.1.1",
+  "httpx==0.28.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==8.4.1",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
