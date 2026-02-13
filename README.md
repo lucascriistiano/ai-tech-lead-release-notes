@@ -1,5 +1,3 @@
-# Multi-Agent Release Notes Generator
-
 # 📦 Multi-Agent Release Notes Generator
 
 Sistema **multiagente inteligente** para **geração automática de release notes**, utilizando **LangChain**, integrando dados do **GitHub** e do **Jira**, exposto via **API REST em Python**.
