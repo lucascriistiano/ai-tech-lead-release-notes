@@ -2,7 +2,16 @@ from app.agents.state import SynthesisResult, WorkflowState
 
 
 class SynthesisAgent:
+    """Consolida os resultados produzidos pelos agentes paralelos.
+
+    Responsabilidades:
+    - Consolidar as análises paralelas.
+    - Unificar perspectivas técnicas, de risco e de impacto.
+    - Criar uma visão coerente do release.
+    """
+
     def run(self, state: WorkflowState) -> dict[str, SynthesisResult]:
+        """Gera um resumo executivo unificado a partir das análises anteriores."""
         impact = state.get("impact_analysis")
         risk = state.get("risk_analysis")
         metrics = state.get("metrics_analysis")

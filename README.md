@@ -1,18 +1,38 @@
 # Multi-Agent Release Notes Generator
 
-Sistema multiagente para gerar release notes automaticamente com Python, FastAPI e LangGraph.
+# 📦 Multi-Agent Release Notes Generator
 
-## Objective
+Sistema **multiagente inteligente** para **geração automática de release notes**, utilizando **LangChain**, integrando dados do **GitHub** e do **Jira**, exposto via **API REST em Python**.
+
+O projeto simula a colaboração entre agentes especializados, apoiando atividades reais do dia a dia de um(a) **Tech Lead / Líder Técnico(a)**.
+
+## Objetivo
 
 Automatizar a criação de release notes claras, completas e rastreáveis com base em dados de desenvolvimento (commits, PRs, issues, bugs), reduzindo trabalho manual e risco de omissões.
 
-## Architecture Overview
+## Visão Geral da Arquitetura
 
-Fluxo principal:
+```mermaid
+flowchart TD
+    A[API REST] --> B[Reflection Agent Planejamento]
+    B --> C[Data Collection Agent - GitHub + Tasks]
 
-`API REST -> Reflection -> Data Collection -> (Impact + Risk + Metrics) -> Synthesis -> Formatting -> Validation -> Release Notes`
+    %% Parallel execution
+    C --> D1[Impact Agent - Impacto ao usuário]
+    C --> D2[Risk Agent - Riscos técnicos]
+    C --> D3[Metrics Agent - Métricas do release]
 
-## Project Structure
+    %% Merge
+    D1 --> E[Synthesis Agent]
+    D2 --> E
+    D3 --> E
+
+    E --> F[Formatting Agent]
+    F --> G[Validation Agent]
+    G --> H[Release Notes Final]
+```
+
+## Estrutura do Projeto
 
 ```text
 .
@@ -51,7 +71,7 @@ Fluxo principal:
 └── README.md
 ```
 
-## Main Dependencies
+## Dependências Principais
 
 - `fastapi`
 - `uvicorn[standard]`
@@ -63,33 +83,33 @@ Fluxo principal:
 - `httpx`
 - `pytest` (dev/test)
 
-## Environment Setup
+## Configuração do Ambiente
 
-### Requirements
+### Requisitos
 
 - Python 3.11+
 - `venv`
 
-### 1) Create virtual environment
+### 1) Criar ambiente virtual
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 2) Install dependencies
+### 2) Instalar dependências
 
 ```bash
 make install
 ```
 
-### 3) Configure environment variables
+### 3) Configurar variáveis de ambiente
 
 ```bash
 cp .env.example .env
 ```
 
-Fill in:
+Preencha com:
 
 ```env
 APP_ENV=development
@@ -100,7 +120,7 @@ JIRA_EMAIL=your_email
 JIRA_API_TOKEN=your_token
 ```
 
-## Run for Development
+## Execução em Desenvolvimento
 
 ```bash
 make run
@@ -110,11 +130,11 @@ make run
 - Swagger: `http://localhost:8000/docs`
 - Health: `http://localhost:8000/health`
 
-## API Endpoint
+## Endpoint da API
 
 ### `POST /v1/release-notes`
 
-Request:
+Requisição:
 
 ```json
 {
@@ -125,7 +145,7 @@ Request:
 }
 ```
 
-Response:
+Resposta:
 
 ```json
 {
@@ -134,13 +154,13 @@ Response:
 }
 ```
 
-## Tests
+## Testes
 
 ```bash
 make test
 ```
 
-## Notes
+## Observações
 
-- O workflow no `app/graphs/release_notes_graph.py` já está conectado com os nós principais de agentes.
+- O workflow em `app/graphs/release_notes_graph.py` já está conectado com os nós principais de agentes.
 - As integrações reais com GitHub/Jira podem ser implementadas no agente de coleta (`DataCollectionAgent`) e em serviços dedicados.
