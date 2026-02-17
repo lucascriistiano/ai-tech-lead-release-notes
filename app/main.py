@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from app.api.router import api_router
 
@@ -15,3 +16,5 @@ app.include_router(api_router, prefix="/v1")
 @app.get("/health", tags=["health"])
 def health_check() -> dict[str, str]:
     return {"status": "ok"}
+
+app.mount("/static", StaticFiles(directory="static"), name="static")

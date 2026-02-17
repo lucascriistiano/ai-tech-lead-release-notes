@@ -14,27 +14,33 @@ class DataCollectionAgent:
     tools = [fetch_github_changes, fetch_tasks_data]
 
     def run(self, state: WorkflowState) -> dict[str, CollectedData]:
-        """Retorna dados coletados em uma estrutura semântica compartilhada no estado."""
-        github_data = fetch_github_changes.invoke(
-            {
-                "version": state["version"],
-                "from_date": state["from_date"].isoformat(),
-                "to_date": state["to_date"].isoformat(),
-            }
-        )
-        tasks_data = fetch_tasks_data.invoke(
-            {
-                "version": state["version"],
-                "from_date": state["from_date"].isoformat(),
-                "to_date": state["to_date"].isoformat(),
-            }
-        )
+        """Retorna dados coletados mockados e estruturados."""
+        
+        github_data = fetch_github_changes.invoke({})
+        tasks_data = fetch_tasks_data.invoke({})
 
-        combined_fixes = list(dict.fromkeys(github_data.get("fixes", []) + tasks_data.get("bugs", [])))
+        combined_fixes = []
+        
+        for fix in github_data.get("fixes", []):
+            combined_fixes.append(f"[GitHub {fix['id']}] {fix['title']}: {fix['description']}")
+            
+        for bug in tasks_data.get("bugs", []):
+            combined_fixes.append(f"[Jira {bug['ticket_id']}] {bug['summary']} - Resolução: {bug['resolution']}")
+
+        combined_features = []
+        for feat in github_data.get("features", []):
+            combined_features.append(f"{feat['title']} ({feat['description']})")
+        
+        for feat in tasks_data.get("features", []):
+            combined_features.append(f"{feat['summary']} - Impacto: {feat['business_value']}")
+
         return {
             "collected_data": CollectedData(
-                features=github_data.get("features", []),
+                features=combined_features,
                 fixes=combined_fixes,
-                breaking_changes=tasks_data.get("breaking_changes", []),
+                breaking_changes=[
+                    f"{bc['summary']}: {bc['description']} (Migration: {bc['migration_guide']})"
+                    for bc in tasks_data.get("breaking_changes", [])
+                ],
             )
         }
