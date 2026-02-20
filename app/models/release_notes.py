@@ -1,6 +1,7 @@
 from datetime import date
 
 from pydantic import BaseModel, Field, field_validator
+from typing import Optional
 
 
 class ReleaseNotesRequest(BaseModel):
@@ -21,3 +22,5 @@ class ReleaseNotesRequest(BaseModel):
 class ReleaseNotesResponse(BaseModel):
     status: str = Field(..., examples=["approved"])
     release_notes: str
+    html_report: Optional[str] = None
+    score: Optional[int] = None

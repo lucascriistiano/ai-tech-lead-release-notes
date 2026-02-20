@@ -1,29 +1,49 @@
 from app.agents.state import ValidationResult, WorkflowState
-from app.agents.tools import validate_release_notes_content
-
+from app.agents.tools import validate_release_notes_content, generate_release_notes_html
 
 class ValidationAgent:
-    """Valida qualidade e completude do conteúdo final.
-
-    Responsabilidades:
-    - Revisar clareza e completude.
-    - Detectar omissões ou redundâncias.
-    - Aprovar ou solicitar ajustes.
-
-    Representa um loop de validação com papel de revisão humana.
+    """
+    Guardião da Qualidade e Editor de Design.
+    
+    Fluxo:
+    1. Audita o conteúdo (Texto -> Nota/Crítica).
+    2. Se Aprovado (>6), gera o Dashboard HTML (Texto -> HTML).
+    3. Retorna o resultado composto.
     """
 
-    tools = [validate_release_notes_content]
-
     def run(self, state: WorkflowState) -> dict[str, ValidationResult]:
-        """Define o status final da validação e anotações de revisão."""
-        formatted_release_notes = state.get("formatted_release_notes")
-        validation = validate_release_notes_content.invoke(
-            {"markdown": formatted_release_notes.markdown if formatted_release_notes else ""}
-        )
+        formatted_notes = state.get("formatted_release_notes")
+        markdown_content = formatted_notes.markdown if formatted_notes else ""
+        
+        version = state.get("version", "v0.0.0")
+        audience = state.get("audience", "General")
+
+        validation_output = validate_release_notes_content.invoke({
+            "markdown": markdown_content,
+            "version": version,
+            "audience": audience
+        })
+
+        status = validation_output["status"]
+        score = validation_output["score"]
+        notes = validation_output["notes"]
+        html_report = None
+
+        if status == "approved":
+            html_report = generate_release_notes_html.invoke({
+                "markdown": markdown_content,
+                "version": version,
+                "audience": audience
+            })
+        else:
+            # Opcional: Se quiser HTML mesmo reprovado, remova o 'else' e idente o invoke acima
+            html_report = ""
+
         return {
             "validation": ValidationResult(
-                status=validation["status"],
-                notes=validation["notes"],
+                status=status,
+                score=score,
+                notes=notes,
+                html_report=html_report
             )
         }
