@@ -16,7 +16,7 @@ class DataCollectionAgent:
     def run(self, state: WorkflowState) -> dict[str, CollectedData]:
         """Retorna dados coletados mockados e estruturados."""
         
-        github_data = fetch_github_changes.invoke({})
+        github_data = github_data = fetch_github_changes.invoke(state)
         tasks_data = fetch_tasks_data.invoke({})
 
         combined_fixes = []

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Notes Dashboard - v1.0.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .donut-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #34D399 0% 52%, 
+                #F87171 52% 100%
+            );
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <header class="bg-slate-900 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">Release Notes Dashboard</h1>
+        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">Status: Production</span>
+    </header>
+
+    <div class="max-w-7xl mx-auto p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white shadow-lg rounded-xl p-4 text-center">
+                <h2 class="text-lg font-semibold">Total Features</h2>
+                <p class="text-3xl font-bold text-emerald-600">11</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-xl p-4 text-center">
+                <h2 class="text-lg font-semibold">Total Fixes</h2>
+                <p class="text-3xl font-bold text-rose-600">10</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-xl p-4 text-center">
+                <h2 class="text-lg font-semibold">Risk Level</h2>
+                <p class="text-3xl font-bold text-red-600">High</p>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg p-4 mb-6">
+            <div class="donut-chart mx-auto"></div>
+            <div class="flex justify-center mt-4">
+                <div class="flex items-center mr-4">
+                    <div class="w-4 h-4 bg-emerald-500 rounded-full mr-2"></div>
+                    <span>Features</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-rose-500 rounded-full mr-2"></div>
+                    <span>Fixes</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h2 class="text-xl font-bold mb-4">New Features</h2>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Idempotency Key Support</strong>: Adds support for the `Idempotency-Key` header in `POST /transactions` to prevent double charges on network failures.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Dark Mode Toggle</strong>: Implements a system-wide dark mode based on user preference using Tailwind classes.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>2FA with Authenticator App</strong>: Adds TOTP support (Google/Microsoft Authenticator) for user login.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Export Transactions to PDF</strong>: New endpoint to generate PDF statements for merchants.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Slack Webhooks for Payments</strong>: Allows merchants to receive Slack notifications on successful payments.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Biometric Login Support</strong>: React Native bridge for FaceID/TouchID.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Suporte a PIX Automático</strong>: High demand from Brazilian customers, expected to increase transaction volume by 15%.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Painel de Controle de Fraude</strong>: Allows admins to block suspicious IPs manually, reducing chargeback risks.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Integração com Slack</strong>: Requested by 3 major enterprise clients for workflow automation.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Suporte a Multi-moeda (USD/EUR)</strong>: Expands market reach to international merchants.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>Login Biométrico Mobile</strong>: Improves user retention and login speed on mobile apps.</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold mb-4">Fixes</h2>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[GitHub PR-460]</strong>: Fixed a critical race condition in wallet transfer that could lock the row indefinitely.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[GitHub PR-461]</strong>: Corrected decimal rounding on invoice PDFs to show accurate amounts.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[GitHub PR-465]</strong>: Patched SQL Injection vulnerability in the global search bar.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[GitHub PR-466]</strong>: Handled null phone numbers in webhook payloads to prevent server errors.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[GitHub PR-468]</strong>: Fixed crash on startup for iOS 17 by updating the splash screen library.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[GitHub PR-490]</strong>: Resolved alignment issue on the Settings page.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[Jira JIRA-998]</strong>: Implemented streaming response to resolve 500 error when exporting large CSV files.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[Jira JIRA-1002]</strong>: Applied parameter binding to fix SQL Injection vulnerability in search.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[Jira JIRA-1015]</strong>: Upgraded library to fix app crashes on iOS 17.</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1a9 9 0 100 18 9 9 0 000-18zm0 2a7 7 0 100 14 7 7 0 000-14zm-1 7h2v2h-2v-2zm0-4h2v2h-2V6z"/></svg>
+                        <span><strong>[Jira JIRA-1033]</strong>: Implemented idempotency logic to prevent duplicate charges during network fluctuations.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-orange-50 border border-orange-200 p-4 rounded-lg text-center">
+            <h2 class="text-lg font-bold">Risks & Recommendations</h2>
+            <p class="mt-2">This release includes 11 new features, 10 fixes, and 2 breaking changes, resulting in a high risk level. The introduction of these changes may affect existing functionality.</p>
+            <p class="mt-2"><strong>Recommendations:</strong> Monitor the authentication service during rollout. Monitor the billing service during rollout.</p>
+        </div>
+
+        <div class="mt-6">
+            <h2 class="text-lg font-bold">Summary</h2>
+            <p>The upcoming software release is poised to deliver significant value to our clients, with a total of 11 new features introduced. However, it is important to note that this release carries a high level of risk, as it includes not only the 11 features but also 10 fixes and 2 breaking changes that could affect existing functionality. Currently, there are no contributors involved in this release, which may impact our ability to address any unforeseen issues promptly. Overall, while the release promises substantial enhancements, careful monitoring and support will be essential to mitigate potential risks.</p>
+        </div>
+    </div>
+</body>
+</html>
