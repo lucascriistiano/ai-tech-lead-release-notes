@@ -76,42 +76,47 @@ app/
 
 ## 🚀 Configuração
 
-### 1) Ambiente virtual
+### 1) Criar ambiente virtual
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 ```
 
 ### 2) Instalar dependências
 
 ```bash
-pip install -r requirements.txt
+make install
 ```
 
-### 3) Variáveis de ambiente
+### 3) Configurar variáveis de ambiente
 
 ```bash
 cp .env.example .env
 ```
 
-Preencher:
+Preencha com:
 
 ```env
+APP_ENV=development
 OPENAI_API_KEY=your_key
 OPENAI_MODEL=gpt-4o-mini
 OPENAI_TEMPERATURE=0.2
+GITHUB_TOKEN=your_token
+JIRA_BASE_URL=https://your-domain.atlassian.net
+JIRA_EMAIL=your_email
+JIRA_API_TOKEN=your_token
 ```
 
-⚠️ Não é mais necessário token do GitHub ou Jira.
-
----
-
-## ▶️ Executar
+## Execução em Desenvolvimento
 
 ```bash
-uvicorn app.main:app --reload
+make run
 ```
+
+- API: `http://localhost:8000`
+- Swagger: `http://localhost:8000/docs`
+- Health: `http://localhost:8000/health`
 
 Swagger:
 

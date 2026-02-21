@@ -35,9 +35,6 @@ class ValidationAgent:
                 "version": version,
                 "audience": audience
             })
-        else:
-            # Opcional: Se quiser HTML mesmo reprovado, remova o 'else' e idente o invoke acima
-            html_report = ""
 
         return {
             "validation": ValidationResult(

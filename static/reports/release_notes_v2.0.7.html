@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Notes Dashboard v2.0.7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .donut-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #4ade80 0% 66%, 
+                #f43f5e 66% 100%
+            );
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+        }
+        .donut-chart::before {
+            content: '';
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: bg-slate-950;
+            position: absolute;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-300 p-6">
+    <header class="mb-8">
+        <h1 class="text-6xl font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">
+            Release v2.0.7
+        </h1>
+        <span class="block text-center mt-2 bg-emerald-500/20 text-emerald-400 rounded-full px-4 py-1">
+            Status: Production
+        </span>
+    </header>
+
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-lg">
+            <h2 class="text-5xl font-extrabold text-center">11</h2>
+            <p class="text-slate-400 text-center">Total Features</p>
+        </div>
+        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-lg">
+            <h2 class="text-5xl font-extrabold text-center">10</h2>
+            <p class="text-slate-400 text-center">Total Fixes</p>
+        </div>
+        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-lg">
+            <h2 class="text-5xl font-extrabold text-center text-red-500">High</h2>
+            <p class="text-slate-400 text-center">Risk Level</p>
+        </div>
+        <div class="donut-chart"></div>
+    </section>
+
+    <main class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div>
+            <h3 class="text-white text-2xl font-bold mb-4">New Features</h3>
+            <div class="grid gap-4">
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Idempotency Key Support</h4>
+                    <p class="text-slate-400">Adds support for the Idempotency-Key header in POST /transactions to prevent double charges during network failures.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Dark Mode Toggle</h4>
+                    <p class="text-slate-400">Implements a system-wide dark mode based on user preference using Tailwind classes.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Two-Factor Authentication (2FA)</h4>
+                    <p class="text-slate-400">Adds TOTP support (Google/Microsoft Authenticator) for enhanced user login security.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Export Transactions to PDF</h4>
+                    <p class="text-slate-400">Introduces a new endpoint to generate PDF statements for merchants.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Slack Webhooks for Payments</h4>
+                    <p class="text-slate-400">Allows merchants to receive Slack notifications on successful payments.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Biometric Login Support</h4>
+                    <p class="text-slate-400">Integrates a React Native bridge for FaceID/TouchID on mobile applications.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Automatic PIX Support</h4>
+                    <p class="text-slate-400">Expected to increase transaction volume by 15%, addressing high demand from Brazilian customers.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Fraud Control Dashboard</h4>
+                    <p class="text-slate-400">Enables admins to manually block suspicious IPs, reducing chargeback risks.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Integration with Slack</h4>
+                    <p class="text-slate-400">Requested by three major enterprise clients for workflow automation.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Multi-Currency Support (USD/EUR)</h4>
+                    <p class="text-slate-400">Expands market reach to international merchants.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-emerald-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Mobile Biometric Login</h4>
+                    <p class="text-slate-400">Improves user retention and login speed on mobile apps.</p>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="text-white text-2xl font-bold mb-4">Bug Fixes</h3>
+            <div class="grid gap-4">
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Resolve Deadlock in Wallet Transfer</h4>
+                    <p class="text-slate-400">Fixes a critical race condition where simultaneous transfers could lock the row indefinitely by applying SELECT FOR UPDATE SKIP LOCKED.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Correct Decimal Rounding on Invoice PDF</h4>
+                    <p class="text-slate-400">Addresses an issue where invoices displayed incorrect rounding, ensuring proper formatting.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Patch SQL Injection Vulnerability in Search</h4>
+                    <p class="text-slate-400">Sanitizes inputs on the global search bar, addressing a critical security issue.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Handle Null Phone Numbers in Webhook Payload</h4>
+                    <p class="text-slate-400">Prevents 500 errors when phone numbers are missing in legacy payloads.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Fix Crash on Startup iOS 17</h4>
+                    <p class="text-slate-400">Updates the splash screen library to support newer iOS versions, resolving startup crashes.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Alignment Issue on Settings Page</h4>
+                    <p class="text-slate-400">Corrects a 2px misalignment in the submit button for improved UI consistency.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">CSV Export Error Resolution</h4>
+                    <p class="text-slate-400">Implements a streaming response to resolve issues with exporting large CSV files.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">SQL Injection Vulnerability Resolution</h4>
+                    <p class="text-slate-400">Applies parameter binding to mitigate SQL injection risks in search functionalities.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">App Crash Fix on iOS 17</h4>
+                    <p class="text-slate-400">Upgrades libraries to prevent application crashes upon opening.</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border-l-4 border-rose-500 border border-slate-800 shadow-lg mb-4">
+                    <h4 class="text-white font-bold">Duplicate Charge Resolution</h4>
+                    <p class="text-slate-400">Implements idempotency logic to prevent duplicate charges during network fluctuations.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-8">
+        <div class="bg-amber-950/30 border border-amber-700/50 rounded-xl p-6 text-amber-200">
+            <h3 class="text-xl font-bold">Risks & Recommendations</h3>
+            <p class="font-semibold">Risk Level: <span class="text-red-500">High</span></p>
+            <ul class="list-disc pl-5 mt-2">
+                <li>Monitor for any errors related to API calls, especially those using the deprecated XML endpoints.</li>
+                <li>Implement logging for SQL queries to detect any potential injection attempts post-deployment.</li>
+                <li>Set up alerts for any 500 errors that may arise from the changes in webhook payload handling.</li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

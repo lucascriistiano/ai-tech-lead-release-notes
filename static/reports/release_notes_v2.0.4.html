@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release v2.0.4 Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #cbd5e1;
+        }
+        .donut-chart {
+            width: 150px;
+            height: 150px;
+            background: conic-gradient(#10b981 0% 52%, #f43f5e 52% 100%);
+            border-radius: 50%;
+            position: relative;
+            margin: auto;
+        }
+        .donut-chart::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background-color: #0f172a;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #334155;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="p-8">
+    <header class="mb-8">
+        <h1 class="text-6xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 text-transparent bg-clip-text">Release v2.0.4</h1>
+        <span class="inline-block mt-2 px-4 py-2 bg-green-600 text-slate-100 rounded-full text-lg">Status: Production</span>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div class="bg-slate-900 p-6 rounded-lg shadow-lg border border-slate-800">
+            <h2 class="text-5xl font-bold">11</h2>
+            <p class="text-lg text-slate-400">Total Features</p>
+        </div>
+        <div class="bg-slate-900 p-6 rounded-lg shadow-lg border border-slate-800">
+            <h2 class="text-5xl font-bold">10</h2>
+            <p class="text-lg text-slate-400">Total Fixes</p>
+        </div>
+        <div class="bg-slate-900 p-6 rounded-lg shadow-lg border border-slate-800">
+            <h2 class="text-5xl font-bold text-red-500">High</h2>
+            <p class="text-lg text-slate-400">Risk Level</p>
+        </div>
+        <div class="bg-slate-900 p-6 rounded-lg shadow-lg border border-slate-800 flex justify-center items-center">
+            <div class="donut-chart"></div>
+        </div>
+    </section>
+
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section>
+            <h3 class="text-2xl font-bold text-slate-100 mb-4">New Features</h3>
+            <div class="bg-slate-900 p-4 mb-4 rounded-lg shadow-lg border-l-4 border-emerald-500">
+                <svg class="inline-block w-6 h-6 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                <span class="text-lg">Implementação de suporte para chave de idempotência (previne cobranças duplas em falhas de rede).</span>
+            </div>
+            <!-- Repeat similar blocks for each feature -->
+        </section>
+
+        <section>
+            <h3 class="text-2xl font-bold text-slate-100 mb-4">Bug Fixes</h3>
+            <div class="bg-slate-900 p-4 mb-4 rounded-lg shadow-lg border-l-4 border-rose-500">
+                <svg class="inline-block w-6 h-6 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9V7a1 1 0 112 0v2a1 1 0 01-2 0zm0 4a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd"></path></svg>
+                <span class="text-lg">[GitHub PR-460] Corrigido deadlock em transferência de carteira (condição de corrida crítica resolvida).</span>
+            </div>
+            <!-- Repeat similar blocks for each fix -->
+        </section>
+    </main>
+
+    <section class="mt-8 bg-amber-950/30 p-6 rounded-lg shadow-lg border border-amber-900">
+        <h3 class="text-2xl font-bold text-amber-400 mb-4">Risks & Recommendations</h3>
+        <p class="text-lg text-amber-400">The deployment includes critical security patches for SQL Injection vulnerabilities and breaking changes with the deprecation of XML API endpoints.</p>
+        <ul class="list-disc list-inside text-lg text-amber-400 mt-4">
+            <li>Monitorar o desempenho do banco de dados e o comportamento de bloqueio após a implantação para garantir que a correção de deadlock seja eficaz.</li>
+            <li>Verificar se todos os clientes da API migraram para endpoints JSON para evitar interrupções no serviço.</li>
+            <li>Realizar varreduras de segurança para confirmar que as vulnerabilidades de SQL Injection estão totalmente mitigadas.</li>
+        </ul>
+    </section>
+</body>
+</html>

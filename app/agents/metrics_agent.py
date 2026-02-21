@@ -1,23 +1,18 @@
 from app.agents.state import CollectedData, MetricsAnalysisResult, WorkflowState
 from app.agents.tools import compute_release_metrics
 
-
 class MetricsAgent:
     """Consolida métricas quantitativas do release.
 
     Responsabilidades:
-    - Quantificar o escopo do release.
-    - Contabilizar commits, bugs, features e contribuidores.
-    - Gerar base para um resumo executivo.
-
-    Útil para comunicação com stakeholders e liderança.
+    - Quantificar o escopo de forma 100% determinística.
+    - NÃO usa LLM para evitar alucinações matemáticas.
     """
 
-    tools = [compute_release_metrics]
-
     def run(self, state: WorkflowState) -> dict[str, MetricsAnalysisResult]:
-        """Calcula os indicadores principais a partir dos dados coletados."""
+        
         data = state.get("collected_data") or CollectedData(features=[], fixes=[], breaking_changes=[])
+        
         metrics = compute_release_metrics.invoke(
             {
                 "features": data.features,
@@ -25,10 +20,11 @@ class MetricsAgent:
                 "bugs": data.fixes,
             }
         )
+        
         return {
             "metrics_analysis": MetricsAnalysisResult(
-                features_count=metrics["features_count"],
-                fixes_count=metrics["fixes_count"],
-                contributors_count=metrics["contributors_count"],
+                features_count=metrics.get("features_count", 0),
+                fixes_count=metrics.get("fixes_count", 0),
+                contributors_count=metrics.get("contributors_count", 0),
             )
         }

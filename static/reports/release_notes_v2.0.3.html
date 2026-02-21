@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release v2.0.3 Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .donut-chart {
+            width: 150px;
+            height: 150px;
+            background: conic-gradient(#10b981 0% 52%, #f43f5e 52% 100%);
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .donut-chart::before {
+            content: '';
+            width: 100px;
+            height: 100px;
+            background-color: #0f172a;
+            border-radius: 50%;
+            position: absolute;
+            top: 25px;
+            left: 25px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #334155;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 p-8">
+    <header class="mb-12">
+        <h1 class="text-6xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 text-transparent bg-clip-text">
+            Release v2.0.3
+        </h1>
+        <span class="inline-block mt-4 px-4 py-2 bg-green-600 text-white rounded-full">Status: Production</span>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div class="bg-slate-900 p-6 rounded-lg shadow-lg border border-slate-800">
+            <h2 class="text-5xl font-bold">11</h2>
+            <p class="text-lg text-slate-400">Total Features</p>
+        </div>
+        <div class="bg-slate-900 p-6 rounded-lg shadow-lg border border-slate-800">
+            <h2 class="text-5xl font-bold">10</h2>
+            <p class="text-lg text-slate-400">Total Fixes</p>
+        </div>
+        <div class="bg-slate-900 p-6 rounded-lg shadow-lg border border-slate-800">
+            <h2 class="text-5xl font-bold text-red-500">High</h2>
+            <p class="text-lg text-slate-400">Risk Level</p>
+        </div>
+        <div class="bg-slate-900 p-6 rounded-lg shadow-lg border border-slate-800 flex justify-center items-center">
+            <div class="donut-chart"></div>
+        </div>
+    </section>
+
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <section>
+            <h3 class="text-3xl mb-4">New Features</h3>
+            <div class="bg-slate-900 p-6 mb-4 rounded-lg shadow-lg border-l-4 border-emerald-500">
+                <svg class="w-6 h-6 inline-block text-emerald-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <p class="text-lg">Implementação de suporte a chave de idempotência no cabeçalho Idempotency-Key em POST /transactions para evitar cobranças duplas em falhas de rede.</p>
+            </div>
+            <!-- Repeat for each feature -->
+        </section>
+
+        <section>
+            <h3 class="text-3xl mb-4">Bug Fixes</h3>
+            <div class="bg-slate-900 p-6 mb-4 rounded-lg shadow-lg border-l-4 border-rose-500">
+                <svg class="w-6 h-6 inline-block text-rose-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 18.5c-3.038 0-5.5-2.462-5.5-5.5S8.962 7.5 12 7.5s5.5 2.462 5.5 5.5-2.462 5.5-5.5 5.5z"></path>
+                </svg>
+                <p class="text-lg">Correção de deadlock no banco de dados durante transferência de carteira: Corrigido condição de corrida crítica onde transferências simultâneas poderiam bloquear a linha indefinidamente. Aplicado SELECT FOR UPDATE SKIP LOCKED.</p>
+            </div>
+            <!-- Repeat for each fix -->
+        </section>
+    </main>
+
+    <section class="bg-amber-950/30 p-6 rounded-lg shadow-lg border border-amber-900">
+        <h3 class="text-3xl text-amber-400 mb-4">Risks & Recommendations</h3>
+        <p class="text-lg text-amber-400">The deployment includes critical security patches, a fix for a database deadlock, and breaking changes due to API deprecation and Python upgrade.</p>
+        <ul class="list-disc list-inside text-lg text-amber-400 mt-4">
+            <li>Monitorar logs de transações do banco de dados para ocorrências de deadlock após a implantação.</li>
+            <li>Verificar se todos os clientes da API migraram de endpoints XML para JSON.</li>
+            <li>Verificar erros de runtime relacionados à atualização para Python 3.11 em instâncias auto-hospedadas.</li>
+        </ul>
+    </section>
+</body>
+
+</html>

@@ -307,10 +307,7 @@ def build_release_notes_markdown(
 
 @tool
 def validate_release_notes_content(markdown: str, version: str, audience: str) -> dict:
-    """
-    Analisa a qualidade do conteúdo, consistência e tom do Release Note.
-    Retorna uma nota (0-10) e uma lista de críticas.
-    """
+    """Audita a qualidade do conteúdo."""
     
     if not markdown or len(markdown) < 50:
         return {
@@ -319,99 +316,94 @@ def validate_release_notes_content(markdown: str, version: str, audience: str) -
             "notes": ["O conteúdo está vazio ou insuficiente para análise."]
         }
 
-    audit_system_prompt = (
-        "You are a Senior QA Manager & Tech Editor. "
-        "Your job is to strictly review Release Notes based on: Clarity, Completeness (Features vs Fixes), and Risk Assessment accuracy. "
-        "Scoring Rules:\n"
-        "- Below 5: Critical info missing or bad formatting.\n"
-        "- 5-6: Good content but needs polish (typos, vague descriptions).\n"
-        "- 7+: Ready for publication.\n"
-        "Output JSON only: {score: int, status: 'approved'|'needs_revision', critique: list[str]}."
-    )
+    audit_system_prompt = """
+    <role>You are a Senior QA Manager & Tech Editor.</role>
+    <context>Strictly review Release Notes for clarity, completeness, and formatting.</context>
+    <rules>
+    1. Score from 0 to 10.
+    2. Below 7 is rejected ('needs_revision'), 7 or above is 'approved'.
+    3. Output valid JSON only.
+    </rules>
+    <output_format>
+    {
+        "score": int,
+        "status": "approved" | "needs_revision",
+        "critique": ["list of strings"]
+    }
+    </output_format>
+    """
     
-    audit_user_prompt = (
-        f"Context: Version {version} for Audience {audience}.\n"
-        f"Content to Audit:\n---\n{markdown}\n---"
-    )
+    audit_user_prompt = f"""
+    <input_data>
+        <version>{version}</version>
+        <audience>{audience}</audience>
+        <markdown_content>{markdown}</markdown_content>
+    </input_data>
+    """
 
     try:
         audit_raw = chatgpt_text(system_prompt=audit_system_prompt, user_prompt=audit_user_prompt)
-        # Limpeza para garantir JSON válido
         audit_json = audit_raw.replace("```json", "").replace("```", "").strip()
         audit_data = json.loads(audit_json)
         
-        # Garante estrutura mínima
         return {
             "status": "approved" if audit_data.get("score", 0) > 6 else "needs_revision",
             "score": audit_data.get("score", 0),
             "notes": audit_data.get("critique", [])
         }
     except Exception as e:
-        return {
-            "status": "needs_revision", 
-            "score": 0, 
-            "notes": [f"Erro na validação LLM: {str(e)}"]
-        }
+        return {"status": "needs_revision", "score": 0, "notes": [f"Erro na validação LLM: {str(e)}"]}
+
 
 @tool
 def generate_release_notes_html(markdown: str, version: str, audience: str) -> str:
-    """
-    Transforma o Markdown aprovado em um Dashboard HTML Executivo e Moderno.
-    Usa Tailwind CSS, Cards e Gráficos CSS puros.
-    """
+    """Transforma o Markdown aprovado em um Dashboard HTML Tailwind."""
     
-    html_system_prompt = (
-        "You are a World-Class Frontend Developer specialized in Tailwind CSS. "
-        "Your goal is to convert Markdown Release Notes into a stunning, single-file HTML Dashboard. "
-        "Do NOT use simple bullet lists. Use a Card-based Grid layout. "
-        "Aesthetic: Stripe-like, clean, modern typography (Inter), with 'Glassmorphism' elements."
-    )
+    html_system_prompt = """
+    <role>You are an award-winning UI/UX Designer and Lead Frontend Engineer expert in Tailwind CSS.</role>
+    <context>
+    Your task is to convert Markdown Release Notes into a breathtaking, single-file HTML Executive Dashboard. 
+    It will be presented on a large screen, so it requires a highly polished Dark Mode aesthetic, excellent readability, and a structured layout.
+    </context>
+    <rules>
+    1. Theme: Premium Deep Dark Mode. Use `bg-slate-950` for the body, `bg-slate-900` for cards, and `border-slate-800` for subtle card outlines. 
+    2. Typography: Import and use the 'Inter' font. Use generous font sizes (`text-slate-300` for body, `text-white` for headings). KPIs must have HUGE text (`text-5xl` or `text-6xl font-extrabold`).
+    3. Layout: Use a Card-based CSS Grid (`grid-cols-1 lg:grid-cols-2`). Never use plain bullet lists (`<ul>`).
+    4. Anti-Truncation: You MUST render EVERY SINGLE feature and EVERY SINGLE fix from the input content. DO NOT summarize, omit, or use "..." to shorten the lists. Map 100% of the items into their respective cards.
+    5. Output ONLY raw, valid HTML5 starting with <!DOCTYPE html>. Absolutely no markdown code fences like ```html.
+    </rules>
+    """
 
     html_user_prompt = f"""
-    TRANSFORM THIS DATA INTO A HIGH-FIDELITY HTML DASHBOARD.
+    <input_data>
+        <version>{version}</version>
+        <audience>{audience}</audience>
+        <content>{markdown}</content>
+    </input_data>
 
-    CONTEXT:
-    - Version: {version}
-    - Audience: {audience}
-    - Content Source: {markdown}
-
-    VISUAL REQUIREMENTS (STRICT):
-    1. **Setup**: 
-       - Use `<script src="https://cdn.tailwindcss.com"></script>`.
-       - Import Google Font 'Inter'. Body font-family: 'Inter'.
-       - Background: `bg-slate-50`.
-
-    2. **Header**: 
-       - Dark Slate background (`bg-slate-900`) with a subtle gradient text for the title.
-       - Add a 'Status: Production' badge.
-
-    3. **KPI Row (Top Section)**:
-       - Extract these numbers from text: Total Features, Total Fixes, Risk Level.
-       - Display them as 3 Big Cards (`bg-white shadow-lg rounded-xl`).
-       - **Risk Logic**: If High -> Text Red. If Low -> Text Green.
-
-    4. **Visual Chart (CSS Only)**:
-       - Inside a card, create a CSS `conic-gradient` circle (Donut Chart) representing Features vs Fixes ratio.
-       - Add a small legend (Green=Features, Red=Fixes).
-
-    5. **Main Grid (The Content)**:
-       - Layout: 2 Columns (1 col on mobile).
-       - **Column 1 (New Features)**: 
-         - Do NOT use `<ul>`. Create individual `<div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-emerald-500 mb-3">` cards for each feature.
-         - Include an SVG check icon.
-       - **Column 2 (Fixes)**: 
-         - Create individual `<div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-rose-500 mb-3">` cards for each fix.
-         - Include an SVG bug icon.
-
-    6. **Risk & Recommendations**:
-       - A full-width banner at the bottom using `bg-orange-50` and `border-orange-200`.
-
-    7. **Output**:
-       - Return ONLY raw HTML code. No markdown fences (```html).
+    <visual_requirements>
+    1. **Imports**: `<script src="https://cdn.tailwindcss.com"></script>` and Google Fonts 'Inter'. Add a custom `<style>` block for a pure CSS Donut Chart (using `conic-gradient` masked with a dark inner circle).
+    2. **Header**: Clean and impactful. Make the Version Title a glowing text gradient (`bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400`). Add a pill-shaped badge: 'Status: Production' (`bg-emerald-500/20 text-emerald-400`).
+    3. **Top Section (KPIs & Chart)**: 
+       - Display 3 prominent KPI Cards side-by-side: Total Features, Total Fixes, and Risk Level. Center the numbers and make them massive. Risk text should be Red if high, Emerald if low.
+       - Next to them, render the beautiful CSS-only Donut Chart representing the Features vs Fixes ratio.
+    4. **Main Content (The Grid)**:
+       - Two distinct columns: "New Features" (Left) and "Bug Fixes" (Right).
+       - Encase EVERY item in its own card: `bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-lg mb-4`.
+       - Features get a left accent border: `border-l-4 border-emerald-500`.
+       - Fixes get a left accent border: `border-l-4 border-rose-500`.
+       - Bold the title/ID of the item in white, put the description below in `text-slate-400`.
+    5. **Risks & Recommendations**:
+       - Full-width block at the bottom of the page.
+       - Styling: `bg-amber-950/30 border border-amber-700/50 rounded-xl p-6 text-amber-200`.
+       - Show the Risk Level, then format the recommendations clearly with icons or styled bullets.
+    </visual_requirements>
     """
 
     try:
         html_content = chatgpt_text(system_prompt=html_system_prompt, user_prompt=html_user_prompt)
-        return html_content.replace("```html", "").replace("```", "").strip()
+        # Limpeza para garantir que o output seja puro HTML, removendo formatações do LLM
+        clean_html = html_content.replace("```html", "").replace("```", "").strip()
+        return clean_html
     except Exception:
         return ""
