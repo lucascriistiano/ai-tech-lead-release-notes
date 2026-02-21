@@ -51,6 +51,7 @@ class RiskRegressionAgent:
             technical_risk = result.get("technical_risk", "Routine bug fixes and stability improvements.")
             recommendations = result.get("recommendations", ["Monitor system logs post-deployment."])
         except Exception:
+            # Fallback seguro (Zero Side Effects)
             level = "high" if (data and data.breaking_changes) else "medium"
             technical_risk = "Fallback: Unable to parse detailed risk."
             recommendations = ["Monitor application health metrics."]

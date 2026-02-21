@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Notes Dashboard v2.0.6</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .donut-chart {
+            width: 100px;
+            height: 100px;
+            background: conic-gradient(
+                #34D399 0% 52.38%, 
+                #F87171 52.38% 100%
+            );
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-slate-900 text-white p-4 flex justify-between items-center">
+        <h1 class="text-xl">Release v2.0.6</h1>
+        <span class="bg-green-500 text-white px-2 py-1 rounded">Status: Production</span>
+    </header>
+    <main class="p-6">
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-white shadow-md rounded-lg p-4 text-center">
+                <h2 class="text-2xl font-bold">Total Features</h2>
+                <p class="text-4xl">11</p>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-4 text-center">
+                <h2 class="text-2xl font-bold">Total Fixes</h2>
+                <p class="text-4xl">10</p>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-4 text-center">
+                <h2 class="text-2xl font-bold">Risk Level</h2>
+                <p class="text-4xl text-red-500">High</p>
+            </div>
+        </section>
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border border-emerald-500 rounded-lg p-4">
+                <h3 class="text-xl font-bold mb-2">New Features</h3>
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Idempotency Key Support</h4>
+                        <p>Adds support for the Idempotency-Key header in POST /transactions to prevent double charges on network failures.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Dark Mode Toggle</h4>
+                        <p>Implements a system-wide dark mode based on user preference using Tailwind classes.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Two-Factor Authentication (2FA)</h4>
+                        <p>Adds TOTP support (Google/Microsoft Authenticator) for user login.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Export Transactions to PDF</h4>
+                        <p>New endpoint to generate PDF statements for merchants.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Slack Webhooks for Payments</h4>
+                        <p>Allows merchants to receive Slack notifications on successful payments.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Biometric Login Support</h4>
+                        <p>React Native bridge for FaceID/TouchID.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Automatic PIX Support</h4>
+                        <p>Anticipated to increase transaction volume by 15% due to high demand from Brazilian customers.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Fraud Control Dashboard</h4>
+                        <p>Enables admins to manually block suspicious IPs, reducing chargeback risks.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Multi-Currency Support (USD/EUR)</h4>
+                        <p>Expands market reach to international merchants.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Mobile Biometric Login</h4>
+                        <p>Improves user retention and login speed on mobile apps.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border border-rose-500 rounded-lg p-4">
+                <h3 class="text-xl font-bold mb-2">Bug Fixes</h3>
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Resolve Deadlock in Wallet Transfer</h4>
+                        <p>Fixes a critical race condition where simultaneous transfers could lock the row indefinitely. Applied SELECT FOR UPDATE SKIP LOCKED.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Correct Decimal Rounding on Invoice PDF</h4>
+                        <p>Invoices were showing 10.999 instead of 11.00. Fixed formatting utility.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Patch SQL Injection Vulnerability in Search</h4>
+                        <p>Sanitized inputs on the global search bar. Critical fix.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Handle Null Phone Numbers in Webhook Payload</h4>
+                        <p>Prevents 500 error when phone number is missing in legacy payloads.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Fix Crash on Startup iOS 17</h4>
+                        <p>Updated splash screen library to support newer iOS versions.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Alignment Issue on Settings Page</h4>
+                        <p>Fixed 2px misalignment in the submit button.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Error 500 When Exporting Large CSV</h4>
+                        <p>Implemented streaming response.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">SQL Injection Vulnerability in Search</h4>
+                        <p>Applied parameter binding.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">App Crashes on Opening in iOS 17</h4>
+                        <p>Resolved through library upgrade.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold">Duplicate Charges During Network Fluctuations</h4>
+                        <p>Implemented idempotency logic.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="bg-orange-50 border-l-4 border-orange-400 p-4 mt-6">
+            <h3 class="font-bold">Risks & Recommendations</h3>
+            <p><strong>Risk Level:</strong> high</p>
+            <ul class="list-disc pl-5">
+                <li>Monitor application logs for any errors related to the new JSON API endpoints to ensure clients are migrating successfully.</li>
+                <li>Implement alerts for any SQL errors or unusual patterns in database access to detect potential exploitation attempts.</li>
+                <li>Track performance metrics for database transactions to identify any issues arising from the new deadlock resolution strategy.</li>
+            </ul>
+        </div>
+    </main>
+</body>
+</html>

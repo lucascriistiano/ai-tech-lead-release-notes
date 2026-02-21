@@ -354,23 +354,23 @@ def validate_release_notes_content(markdown: str, version: str, audience: str) -
     except Exception as e:
         return {"status": "needs_revision", "score": 0, "notes": [f"Erro na validação LLM: {str(e)}"]}
 
+
 @tool
 def generate_release_notes_html(markdown: str, version: str, audience: str) -> str:
-    """Transforma o Markdown aprovado em um Dashboard HTML Tailwind Premium (Dark Mode)."""
+    """Transforma o Markdown aprovado em um Dashboard HTML Tailwind."""
     
     html_system_prompt = """
-    <role>You are a World-Class UI/UX Designer and Frontend Engineer.</role>
+    <role>You are an award-winning UI/UX Designer and Lead Frontend Engineer expert in Tailwind CSS.</role>
     <context>
-    Converting Markdown Release Notes into a single-file, highly professional Executive HTML Dashboard.
-    This dashboard will be presented on a large screen, so it needs a premium Dark Mode aesthetic, large legible typography, and a beautiful layout.
+    Your task is to convert Markdown Release Notes into a breathtaking, single-file HTML Executive Dashboard. 
+    It will be presented on a large screen, so it requires a highly polished Dark Mode aesthetic, excellent readability, and a structured layout.
     </context>
     <rules>
-    1. Theme: Deep Dark Mode (`bg-slate-950`). Cards should be slightly lighter (`bg-slate-900`) with subtle borders (`border border-slate-800`) and soft shadows.
-    2. Typography: Use 'Inter' font. Make fonts large and legible. Use high contrast (`text-slate-100` for titles, `text-slate-400` for descriptions).
-    3. Layout: Use CSS Grid/Flexbox. Add a true CSS Donut Chart.
-    4. Visuals: Use glowing text gradients for the main title, embedded SVG icons, and colored accent borders (emerald for features, rose for bugs, amber for risks).
-    5. CRITICAL ANTI-LAZINESS RULE: You MUST render EVERY SINGLE feature and EVERY SINGLE fix found in the markdown content. DO NOT truncate, omit, summarize, or use "..." to shorten the lists. Map 100% of the items.
-    6. Output ONLY raw, valid HTML5 code starting with <!DOCTYPE html>. Absolutely no markdown fences like ```html.
+    1. Theme: Premium Deep Dark Mode. Use `bg-slate-950` for the body, `bg-slate-900` for cards, and `border-slate-800` for subtle card outlines. 
+    2. Typography: Import and use the 'Inter' font. Use generous font sizes (`text-slate-300` for body, `text-white` for headings). KPIs must have HUGE text (`text-5xl` or `text-6xl font-extrabold`).
+    3. Layout: Use a Card-based CSS Grid (`grid-cols-1 lg:grid-cols-2`). Never use plain bullet lists (`<ul>`).
+    4. Anti-Truncation: You MUST render EVERY SINGLE feature and EVERY SINGLE fix from the input content. DO NOT summarize, omit, or use "..." to shorten the lists. Map 100% of the items into their respective cards.
+    5. Output ONLY raw, valid HTML5 starting with <!DOCTYPE html>. Absolutely no markdown code fences like ```html.
     </rules>
     """
 
@@ -382,21 +382,28 @@ def generate_release_notes_html(markdown: str, version: str, audience: str) -> s
     </input_data>
 
     <visual_requirements>
-    1. **Imports & Setup**: `<script src="https://cdn.tailwindcss.com"></script>` and Google Fonts (Inter). Custom `<style>` block for the Donut Chart and custom scrollbar.
-    2. **Header**: Impressive header. The Version Title must be a glowing gradient text (`bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 text-transparent bg-clip-text`). Add a prominent 'Status: Production' badge.
-    3. **KPIs Row**: 3 large cards displaying 'Total Features', 'Total Fixes', and 'Risk Level'. Numbers must be HUGE and bold. If Risk is High, use Red text; if Low, Green.
-    4. **Visual Chart**: A beautiful CSS-only Donut Chart representing the Features vs Fixes ratio. Put it in a dedicated card.
-    5. **Main Grid**: 2 columns.
-       - Left: ALL Features. You MUST iterate through the entire input list. Individual cards with `border-l-4 border-emerald-500`, green SVG checkmarks.
-       - Right: ALL Fixes. You MUST iterate through the entire input list. Individual cards with `border-l-4 border-rose-500`, red SVG bugs/warnings.
-    6. **Risk & Recommendations**: A highly visible full-width section at the bottom. Use `bg-amber-950/30 border border-amber-900` with amber text and warning icons.
-    7. **Clean Output**: Return only the HTML string.
+    1. **Imports**: `<script src="https://cdn.tailwindcss.com"></script>` and Google Fonts 'Inter'. Add a custom `<style>` block for a pure CSS Donut Chart (using `conic-gradient` masked with a dark inner circle).
+    2. **Header**: Clean and impactful. Make the Version Title a glowing text gradient (`bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400`). Add a pill-shaped badge: 'Status: Production' (`bg-emerald-500/20 text-emerald-400`).
+    3. **Top Section (KPIs & Chart)**: 
+       - Display 3 prominent KPI Cards side-by-side: Total Features, Total Fixes, and Risk Level. Center the numbers and make them massive. Risk text should be Red if high, Emerald if low.
+       - Next to them, render the beautiful CSS-only Donut Chart representing the Features vs Fixes ratio.
+    4. **Main Content (The Grid)**:
+       - Two distinct columns: "New Features" (Left) and "Bug Fixes" (Right).
+       - Encase EVERY item in its own card: `bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-lg mb-4`.
+       - Features get a left accent border: `border-l-4 border-emerald-500`.
+       - Fixes get a left accent border: `border-l-4 border-rose-500`.
+       - Bold the title/ID of the item in white, put the description below in `text-slate-400`.
+    5. **Risks & Recommendations**:
+       - Full-width block at the bottom of the page.
+       - Styling: `bg-amber-950/30 border border-amber-700/50 rounded-xl p-6 text-amber-200`.
+       - Show the Risk Level, then format the recommendations clearly with icons or styled bullets.
     </visual_requirements>
     """
 
     try:
         html_content = chatgpt_text(system_prompt=html_system_prompt, user_prompt=html_user_prompt)
-        # O uso do .strip() reforçado garante que se a IA botar markdown, ele some
-        return html_content.replace("```html", "").replace("```", "").strip()
+        # Limpeza para garantir que o output seja puro HTML, removendo formatações do LLM
+        clean_html = html_content.replace("```html", "").replace("```", "").strip()
+        return clean_html
     except Exception:
         return ""

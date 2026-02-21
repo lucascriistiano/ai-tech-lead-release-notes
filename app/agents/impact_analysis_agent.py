@@ -50,6 +50,7 @@ class ImpactAnalysisAgent:
             level = result.get("level", "medium")
             user_impact = result.get("user_impact", "Routine updates and improvements.")
         except Exception:
+            # Fallback determinístico caso o LLM falhe (Zero Side Effects)
             features_count = len(data.features) if data else 0
             level = "high" if features_count >= 3 else "medium" if features_count > 0 else "low"
             user_impact = f"Main impact for {audience}: {features_count} feature(s) delivered."
