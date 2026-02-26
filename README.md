@@ -16,26 +16,7 @@ O sistema interpreta semanticamente os commits (`feat`, `fix`, `perf`, `breaking
 
 ## 🧠 Arquitetura Multi-Agente
 
-```mermaid
-flowchart TD
-    A[API REST] --> B[Reflection Agent - Planejamento]
-    B --> C[Data Collection Agent - Git History]
-
-    %% Paralelo
-    C --> D1[Impact Agent - Impacto ao usuário]
-    C --> D2[Risk Agent - Riscos técnicos]
-    C --> D3[Metrics Agent - Métricas do release]
-
-    %% Merge
-    D1 --> E[Synthesis Agent]
-    D2 --> E
-    D3 --> E
-
-    E --> F[Formatting Agent]
-    F --> G[Validation Agent]
-    G --> H[Release Notes + HTML Dashboard]
-```
-
+![img](img/arquitetura_multiagente.jpeg)
 ---
 
 ## ⚙️ Como o sistema funciona
@@ -114,13 +95,13 @@ JIRA_API_TOKEN=your_token
 make run
 ```
 
-- API: `http://localhost:8000`
-- Swagger: `http://localhost:8000/docs`
-- Health: `http://localhost:8000/health`
+* API: `http://localhost:8000`
+* Swagger: `http://localhost:8000/docs`
+* Health: `http://localhost:8000/health`
 
 Swagger:
 
-```
+```url
 http://localhost:8000/docs
 ```
 
